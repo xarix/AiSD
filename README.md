@@ -1,2 +1,2 @@
 # AiSD
- Alogorith and Data Structures
+ Algorithms and Data Structures

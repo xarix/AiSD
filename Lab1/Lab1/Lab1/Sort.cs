@@ -138,5 +138,55 @@ namespace Sort
                 }
             }
         }
+
+        public static int[] QuickSortIterative(int[] A, string pivot)
+        {
+            Stack stack = new Stack(A.Length - 1);
+            int left = 0;
+            int right = A.Length - 1;
+            int i, j, x, tmp = 0;
+            Pair stackItem;
+
+            stack.Push(new Pair( 0, A.Length - 1));
+            do
+            {
+                stackItem = stack.Pop();
+                left = stackItem.left;
+                right = stackItem.right;
+                do
+                {
+                    i = left;
+                    j = right;
+                    x = pivot switch
+                    {
+                        "right" => A[right],
+                        "mid" => A[(left + right) / 2],
+                        "random" => A[new Random().Next(left, right)],
+                        _ => throw new ArgumentException(),
+                    };
+                    do
+                    {
+                        while (A[i] < x) { i++; }
+                        while (A[j] > x) { j--; }
+                        if(i <= j)
+                        {
+                            tmp = A[i];
+                            A[i] = A[j];
+                            A[j] = tmp;
+                            i++;
+                            j--;
+                        }
+                    } while (i <= j);
+                    if(i < right)
+                    {
+                        stack.Push(new Pair(i, right));
+                    }
+                    right = j;
+                } while (left < right);
+                   
+            } while (!stack.IsEmpty());
+
+            return A;
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Sort.Test
     public class Tests
     {
  
-        [TestCase(1000)]
+        [TestCase(10000)]
         public void InsertionSortTest(int n)
         {
             var data = DataGenerator.Descending(n);
@@ -18,7 +18,7 @@ namespace Sort.Test
             Assert.AreEqual(sortedByIS, data2);
         }
 
-        [TestCase(1000)]
+        [TestCase(10000)]
         public void SelectionSortTest(int n)
         {
             var data = DataGenerator.Random(n);
@@ -31,7 +31,7 @@ namespace Sort.Test
 
         }
 
-        [TestCase(1000)]
+        [TestCase(10000)]
         public void HeapSortTest(int n)
         {
             var data = DataGenerator.Random(n);
@@ -43,7 +43,7 @@ namespace Sort.Test
             Assert.AreEqual(sortedByHS, data2);
         }
 
-        [TestCase(1000)]
+        [TestCase(10000)]
         public void QuickSortTest(int n)
         {
             var data = DataGenerator.Random(n);
@@ -53,6 +53,18 @@ namespace Sort.Test
             Array.Sort(data2);
 
             Assert.AreEqual(sortedByQS, data2);
+        }
+
+        [TestCase(10000)]
+        public void QuickSortIterativeTest(int n)
+        {
+            var data = DataGenerator.AShape(n);
+            var data2 = (int[])data.Clone();
+
+            var sortedByQSI = Sort.QuickSortIterative(data, "random");
+            Array.Sort(data2);
+
+            Assert.AreEqual(sortedByQSI, data2);
         }
     }
 }

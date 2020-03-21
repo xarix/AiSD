@@ -4,8 +4,35 @@ using System.Text;
 
 namespace Sort
 {
-    public static class Sort
+    public class Sort
     {
+
+        public const string ASCENDING = "Asc";
+        public const string DESCENDING = "Desc";
+        public const string ASHAPED = "AShape";
+        public const string VSHAPED = "VShape";
+        public const string RANDOM = "Random";
+        public const string CONSTANT = "Const";
+        public const string INSERTION = "Insertion";
+        public const string SELECTION = "Selection";
+        public const string HEAP = "Heap";
+        public const string QUICKSORT_RIGHT = "QuickRight";
+        public const string QUICKSORT_MIDDLE = "QuickMiddle";
+        public const string QUICKSORT_RANDOM = "QuickRandom";
+        public const string RIGHT = "Right";
+        public const string MIDDLE = "Mid";
+
+        public static int[] SortArray(int[] A, string type) {
+            return type switch {
+                "Selection" => SelectionSort(A),
+                "Insertion" => InsertionSort(A),
+                "Heap" => HeapSort(A),
+                "QuickRight" => QuickSortIterative(A, "Right"),
+                "QuickMiddle" => QuickSortIterative(A, "Mid"),
+                "QuickRandom" => QuickSortIterative(A, "Random"),
+                _ => throw new Exception()
+            };
+        }
 
         public static int[] InsertionSort(int[] A)
         {
@@ -159,9 +186,9 @@ namespace Sort
                     j = right;
                     x = pivot switch
                     {
-                        "right" => A[right],
-                        "mid" => A[(left + right) / 2],
-                        "random" => A[new Random().Next(left, right)],
+                        "Right" => A[right],
+                        "Mid" => A[(left + right) / 2],
+                        "Random" => A[new Random().Next(left, right)],
                         _ => throw new ArgumentException(),
                     };
                     do

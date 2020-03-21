@@ -11,85 +11,94 @@ namespace Lab1
 {
     class Program
     {
-        public static void Exc1(int numberOfElements, int step)
-        {
-            var dataTypes = new List<string>() { "Desc", "Asc", "AShape", "VShape", "Random", "Const" };
+        const string RESULTS_DIRECTORY = "../results/";
+        private static int MeasureSortingTime(string dataType, string algorithm, int numberOfElements) {
             var stopWatch = new Stopwatch();
-
-            using (StreamWriter output = File.CreateText("results1.csv"))
-            using (CsvWriter csv = new CsvWriter(output, System.Globalization.CultureInfo.CurrentCulture))
+            var data = DataGenerator.GetData(dataType, numberOfElements);
+            stopWatch.Start();
+            _ = Sort.Sort.SortArray(data, algorithm);
+            stopWatch.Stop();
+            return stopWatch.Elapsed.Milliseconds;
+        }
+        static void CompareByDataType(int start, int step, int stop) {
+            int numberOfElements;
+            var dataTypes = new List<string>() {"Desc", "Asc", "AShape", "VShape", "Random", "Const"};
+            foreach (var dataType in dataTypes)
             {
-                csv.WriteHeader(typeof(Results));
-                csv.Configuration.NewLine = NewLine.LF;
-                for (int i = 0; i < 15; i++)
+                numberOfElements = start;
+                using (StreamWriter output = File.CreateText(RESULTS_DIRECTORY + "by_data_type/" + dataType.ToLower() + ".csv"))
+                using (CsvWriter csv = new CsvWriter(output, System.Globalization.CultureInfo.CurrentCulture))
                 {
-                    foreach (var dataType in dataTypes)
-                    {
-                        var results = new Results();
-                        results.NumberOfElements = numberOfElements;
-                        results.DataType = dataType;
-
-                        var dataIS = DataGenerator.GetData(dataType, numberOfElements);
-                        stopWatch.Start();
-                        _ = Sort.Sort.InsertionSort(dataIS);
-                        stopWatch.Stop();
-                        results.InsertionSortTime = stopWatch.Elapsed.Milliseconds;
-
-                        var dataSS = DataGenerator.GetData(dataType, numberOfElements);
-                        stopWatch.Start();
-                        _ = Sort.Sort.SelectionSort(dataSS);
-                        stopWatch.Stop();
-                        results.SelectionSortTime = stopWatch.Elapsed.Milliseconds;
-
-                        var dataHS = DataGenerator.GetData(dataType, numberOfElements);
-                        stopWatch.Start();
-                        _ = Sort.Sort.HeapSort(dataHS);
-                        stopWatch.Stop();
-                        results.HeapSortTime = stopWatch.Elapsed.Milliseconds;
-
-                        var dataQS = DataGenerator.GetData(dataType, numberOfElements);
-                        stopWatch.Start();
-                        _ = Sort.Sort.QuickSortMain(dataQS);
-                        stopWatch.Stop();
-                        results.QuickSortTime = stopWatch.Elapsed.Milliseconds;
-
+                    csv.WriteHeader(typeof(CompareByDataTypeResults));
+                    csv.Configuration.NewLine = NewLine.LF;
+                    csv.Configuration.Delimiter = ",";
+                    while (numberOfElements <= stop) {
+                        var results = new CompareByDataTypeResults() {
+                            NumberOfElements = numberOfElements,
+                            SelectionSortTime = MeasureSortingTime(dataType, Sort.Sort.SELECTION, numberOfElements),
+                            InsertionSortTime = MeasureSortingTime(dataType, Sort.Sort.INSERTION, numberOfElements),
+                            HeapSortTime = MeasureSortingTime(dataType, Sort.Sort.HEAP, numberOfElements),
+                            QuickSortTime = MeasureSortingTime(dataType, Sort.Sort.QUICKSORT_RANDOM, numberOfElements)
+                        };
                         csv.NextRecord();
                         csv.WriteRecord(results);
+                        numberOfElements += step;
                     }
-
-                    numberOfElements += step;
-                } 
+                }
             }
         }
 
-        public static void Exc2(int numberOfElements, int step)
-        {
-            var pivots = new List<string>() { "random", "right", "mid" };
-            var stopWatch = new Stopwatch();
-
-            using (StreamWriter output = File.CreateText("results2.csv"))
-            using (CsvWriter csv = new CsvWriter(output, System.Globalization.CultureInfo.CurrentCulture))
+        static void CompareByAlgorithm(int start, int step, int stop) {
+            int numberOfElements;
+            var algorithms = new List<string>() {"Insertion", "Selection", "Heap", "QuickMiddle"};
+            foreach (var algorithm in algorithms)
             {
-                csv.WriteHeader(typeof(Results2));
-                csv.Configuration.NewLine = NewLine.LF;
-                for (int i = 0; i < 15; i++)
+                numberOfElements = start;
+                using (StreamWriter output = File.CreateText(RESULTS_DIRECTORY + "by_algorithm/" + algorithm.ToLower() + ".csv"))
+                using (CsvWriter csv = new CsvWriter(output, System.Globalization.CultureInfo.CurrentCulture))
                 {
-                    foreach (var pivot in pivots)
+                    csv.WriteHeader(typeof(CompareByAlgorithmResults));
+                    csv.Configuration.NewLine = NewLine.LF;
+                    csv.Configuration.Delimiter = ",";
+                    while (numberOfElements <= stop)
                     {
-                        var results = new Results2();
-                        results.NumberOfElements = numberOfElements;
-                        results.Pivot = pivot;
-
-                        var dataIS = DataGenerator.GetData("AShape", numberOfElements);
-                        stopWatch.Start();
-                        _ = Sort.Sort.QuickSortIterative(dataIS, pivot);
-                        stopWatch.Stop();
-                        results.Time = stopWatch.Elapsed.Milliseconds;
-
+                        var results = new CompareByAlgorithmResults()
+                        {
+                            NumberOfElements = numberOfElements,
+                            Ascending = MeasureSortingTime("Asc", algorithm, numberOfElements),
+                            Descending = MeasureSortingTime("Desc", algorithm, numberOfElements),
+                            AShaped = MeasureSortingTime("AShape", algorithm, numberOfElements),
+                            VShaped = MeasureSortingTime("VShape", algorithm, numberOfElements),
+                            Random = MeasureSortingTime("Random", algorithm, numberOfElements),
+                            Constant = MeasureSortingTime("Const", algorithm, numberOfElements),
+                        };
                         csv.NextRecord();
                         csv.WriteRecord(results);
+                        numberOfElements += step;
                     }
+                }
+            }
+        }
 
+        static void CompareQuickSortPivotTypesForAShapedData(int start, int step, int stop) {
+            int numberOfElements = start;
+            using (StreamWriter output = File.CreateText(RESULTS_DIRECTORY + "quicksort/quicksort_pivots.csv"))
+            using (CsvWriter csv = new CsvWriter(output, System.Globalization.CultureInfo.CurrentCulture))
+            {
+                csv.WriteHeader(typeof(CompareQuicSortResults));
+                csv.Configuration.NewLine = NewLine.LF;
+                csv.Configuration.Delimiter = ",";
+                while (numberOfElements <= stop)
+                {
+                    var results = new CompareQuicSortResults()
+                    {
+                        NumberOfElements = numberOfElements,
+                        Right = MeasureSortingTime("AShape", "QuickRight", numberOfElements),
+                        Middle = MeasureSortingTime("AShape", "QuickMiddle", numberOfElements),
+                        Random = MeasureSortingTime("AShape", "QuickRandom", numberOfElements),
+                    };
+                    csv.NextRecord();
+                    csv.WriteRecord(results);
                     numberOfElements += step;
                 }
             }
@@ -97,8 +106,25 @@ namespace Lab1
 
         static void Main(string[] args)
         {
-            Exc1(1000, 250);
-            Exc2(5000, 500);
+            var stopWatch = new Stopwatch();
+
+            stopWatch.Reset();
+            stopWatch.Start();
+            CompareByAlgorithm(1000, 1000, 20000);
+            stopWatch.Stop();
+            Console.WriteLine(stopWatch.Elapsed);
+
+            stopWatch.Reset();
+            stopWatch.Start();
+            CompareByDataType(1000, 1000, 20000);
+            stopWatch.Stop();
+            Console.WriteLine(stopWatch.Elapsed);
+
+            stopWatch.Reset();
+            stopWatch.Start();
+            CompareQuickSortPivotTypesForAShapedData(1000, 1000, 20000);
+            stopWatch.Stop();
+            Console.WriteLine(stopWatch.Elapsed);
         }
     }
 }

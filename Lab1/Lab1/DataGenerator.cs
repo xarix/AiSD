@@ -6,7 +6,21 @@ namespace Sort
 {
     public static class DataGenerator
     {
-        public static int[] Descending(int n)
+        public static int[] GetData(string dataType, int n)
+        {
+            return dataType switch
+            {
+                "Desc" => Descending(n),
+                "Asc" => Ascending(n),
+                "AShape" => AShape(n),
+                "VShape" => VShape(n),
+                "Random" => Random(n),
+                "Const" => Constant(n),
+                _ => throw new ArgumentException("Data type doesn't exist!"),
+            };
+        }
+
+        private static int[] Descending(int n)
         {
             var res = new int[n];
             for(var i = 0; i < n; i++)
@@ -17,7 +31,7 @@ namespace Sort
             return res;
         }
 
-        public static int[] Ascending(int n)
+        private static int[] Ascending(int n)
         {
             var res = new int[n];
             for(var i = 0; i < n; i++)
@@ -27,7 +41,7 @@ namespace Sort
             return res;
         }
 
-        public static int[] Constant(int n)
+        private static int[] Constant(int n)
         {
             var res = new int[n];
             for(var i = 0; i < n; i++)
@@ -38,7 +52,7 @@ namespace Sort
             return res;
         }
 
-        public static int[] AShape(int n)
+        private static int[] AShape(int n)
         {
             var res = new int[n];
             int j = 0;
@@ -57,7 +71,7 @@ namespace Sort
             return res;
         }
 
-        public static int[] VShape(int n)
+        private static int[] VShape(int n)
         {
             var res = new int[n];
             var j = n;
@@ -77,7 +91,7 @@ namespace Sort
             return res;
         }
 
-        public static int[] Random(int n)
+        private static int[] Random(int n)
         {
             var res = new int[n];
             var rand = new Random();

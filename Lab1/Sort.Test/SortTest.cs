@@ -6,10 +6,15 @@ namespace Sort.Test
     public class Tests
     {
  
-        [TestCase(10000)]
-        public void InsertionSortTest(int n)
+        [TestCase(10000, "Random")]
+        [TestCase(10000, "Asc")]
+        [TestCase(10000, "Desc")]
+        [TestCase(10000, "AShape")]
+        [TestCase(10000, "VShape")]
+        [TestCase(10000, "Const")]
+        public void InsertionSortTest(int n, string dataType)
         {
-            var data = DataGenerator.Descending(n);
+            var data = DataGenerator.GetData(dataType, n);
             var data2 = (int[])data.Clone();
             
             var sortedByIS = Sort.InsertionSort(data);
@@ -18,10 +23,15 @@ namespace Sort.Test
             Assert.AreEqual(sortedByIS, data2);
         }
 
-        [TestCase(10000)]
-        public void SelectionSortTest(int n)
+        [TestCase(10000, "Random")]
+        [TestCase(10000, "Asc")]
+        [TestCase(10000, "Desc")]
+        [TestCase(10000, "AShape")]
+        [TestCase(10000, "VShape")]
+        [TestCase(10000, "Const")]
+        public void SelectionSortTest(int n, string dataType)
         {
-            var data = DataGenerator.Random(n);
+            var data = DataGenerator.GetData(dataType, n);
             var data2 = (int[])data.Clone();
 
             var sortedByIS = Sort.SelectionSort(data);
@@ -31,10 +41,15 @@ namespace Sort.Test
 
         }
 
-        [TestCase(10000)]
-        public void HeapSortTest(int n)
+        [TestCase(10000, "Random")]
+        [TestCase(10000, "Asc")]
+        [TestCase(10000, "Desc")]
+        [TestCase(10000, "AShape")]
+        [TestCase(10000, "VShape")]
+        [TestCase(10000, "Const")]
+        public void HeapSortTest(int n, string dataType)
         {
-            var data = DataGenerator.Random(n);
+            var data = DataGenerator.GetData(dataType, n);
             var data2 = (int[])data.Clone();
 
             var sortedByHS = Sort.HeapSort(data);
@@ -43,10 +58,15 @@ namespace Sort.Test
             Assert.AreEqual(sortedByHS, data2);
         }
 
-        [TestCase(10000)]
-        public void QuickSortTest(int n)
+        [TestCase(10000, "Random")]
+        [TestCase(10000, "Asc")]
+        [TestCase(10000, "Desc")]
+        [TestCase(10000, "AShape")]
+        [TestCase(10000, "VShape")]
+        [TestCase(10000, "Const")]
+        public void QuickSortTest(int n, string dataType)
         {
-            var data = DataGenerator.Random(n);
+            var data = DataGenerator.GetData(dataType ,n);
             var data2 = (int[])data.Clone();
 
             var sortedByQS = Sort.QuickSortMain(data);
@@ -55,13 +75,30 @@ namespace Sort.Test
             Assert.AreEqual(sortedByQS, data2);
         }
 
-        [TestCase(10000)]
-        public void QuickSortIterativeTest(int n)
+        [TestCase(10000, "Random", "random")]
+        [TestCase(10000, "Random", "mid")]
+        [TestCase(10000, "Random", "right")]
+        [TestCase(10000, "Asc", "random")]
+        [TestCase(10000, "Asc", "mid")]
+        [TestCase(10000, "Asc", "right")]
+        [TestCase(10000, "Desc", "random")]
+        [TestCase(10000, "Desc", "right")]
+        [TestCase(10000, "Desc", "mid")]
+        [TestCase(10000, "AShape", "random")]
+        [TestCase(10000, "AShape", "right")]
+        [TestCase(10000, "AShape", "mid")]
+        [TestCase(10000, "VShape", "random")]
+        [TestCase(10000, "VShape", "right")]
+        [TestCase(10000, "VShape", "mid")]
+        [TestCase(10000, "Const", "random")]
+        [TestCase(10000, "Const", "mid")]
+        [TestCase(10000, "Const", "right")]
+        public void QuickSortIterativeTest(int n, string dataType, string pivot)
         {
-            var data = DataGenerator.AShape(n);
+            var data = DataGenerator.GetData(dataType, n);
             var data2 = (int[])data.Clone();
 
-            var sortedByQSI = Sort.QuickSortIterative(data, "random");
+            var sortedByQSI = Sort.QuickSortIterative(data, pivot);
             Array.Sort(data2);
 
             Assert.AreEqual(sortedByQSI, data2);

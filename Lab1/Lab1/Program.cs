@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using Sort;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,17 +11,28 @@ namespace Lab1
     class Program
     {
         const string RESULTS_DIRECTORY = "../results/";
-        private static int MeasureSortingTime(string dataType, string algorithm, int numberOfElements) {
+
+        private static int MeasureSortingTime(int[] data, string algorithm)
+        {
             var stopWatch = new Stopwatch();
-            var data = DataGenerator.GetData(dataType, numberOfElements);
             stopWatch.Start();
-            _ = Sort.Sort.SortArray(data, algorithm);
+            _ = Sort.SortArray(data, algorithm);
             stopWatch.Stop();
-            return stopWatch.Elapsed.Milliseconds;
+            return (int)stopWatch.ElapsedMilliseconds;
         }
-        static void CompareByDataType(int start, int step, int stop) {
+
+        static void CompareByDataType(int start, int step, int stop)
+        {
             int numberOfElements;
-            var dataTypes = new List<string>() {"Desc", "Asc", "AShape", "VShape", "Random", "Const"};
+            var dataTypes = new List<string>()
+            {
+                Sort.DESCENDING,
+                Sort.ASCENDING,
+                Sort.ASHAPED,
+                Sort.VSHAPED,
+                Sort.RANDOM,
+                Sort.CONSTANT
+            };
             foreach (var dataType in dataTypes)
             {
                 numberOfElements = start;
@@ -32,13 +42,17 @@ namespace Lab1
                     csv.WriteHeader(typeof(CompareByDataTypeResults));
                     csv.Configuration.NewLine = NewLine.LF;
                     csv.Configuration.Delimiter = ",";
-                    while (numberOfElements <= stop) {
-                        var results = new CompareByDataTypeResults() {
+                    while (numberOfElements <= stop)
+                    {
+                        var data = DataGenerator.GetData(dataType, numberOfElements);
+                        var results = new CompareByDataTypeResults()
+                        {
                             NumberOfElements = numberOfElements,
-                            SelectionSortTime = MeasureSortingTime(dataType, Sort.Sort.SELECTION, numberOfElements),
-                            InsertionSortTime = MeasureSortingTime(dataType, Sort.Sort.INSERTION, numberOfElements),
-                            HeapSortTime = MeasureSortingTime(dataType, Sort.Sort.HEAP, numberOfElements),
-                            QuickSortTime = MeasureSortingTime(dataType, Sort.Sort.QUICKSORT_RANDOM, numberOfElements)
+                            SelectionSortTime = MeasureSortingTime(data, Sort.SELECTION),
+                            InsertionSortTime = MeasureSortingTime(data, Sort.INSERTION),
+                            HeapSortTime = MeasureSortingTime(data, Sort.HEAP),
+                            QuickSortIterativeTime = MeasureSortingTime(data, Sort.QUICKSORT_RANDOM),
+                            QuickSortRecursiveTime = MeasureSortingTime(data, Sort.QUICKSORT_RECURSIVE)
                         };
                         csv.NextRecord();
                         csv.WriteRecord(results);
@@ -48,9 +62,17 @@ namespace Lab1
             }
         }
 
-        static void CompareByAlgorithm(int start, int step, int stop) {
+        static void CompareByAlgorithm(int start, int step, int stop)
+        {
             int numberOfElements;
-            var algorithms = new List<string>() {"Insertion", "Selection", "Heap", "QuickMiddle"};
+            var algorithms = new List<string>()
+            {
+                Sort.INSERTION,
+                Sort.SELECTION,
+                Sort.HEAP,
+                Sort.QUICKSORT_RECURSIVE,
+                Sort.QUICKSORT_MIDDLE
+            };
             foreach (var algorithm in algorithms)
             {
                 numberOfElements = start;
@@ -65,12 +87,12 @@ namespace Lab1
                         var results = new CompareByAlgorithmResults()
                         {
                             NumberOfElements = numberOfElements,
-                            Ascending = MeasureSortingTime("Asc", algorithm, numberOfElements),
-                            Descending = MeasureSortingTime("Desc", algorithm, numberOfElements),
-                            AShaped = MeasureSortingTime("AShape", algorithm, numberOfElements),
-                            VShaped = MeasureSortingTime("VShape", algorithm, numberOfElements),
-                            Random = MeasureSortingTime("Random", algorithm, numberOfElements),
-                            Constant = MeasureSortingTime("Const", algorithm, numberOfElements),
+                            Ascending = MeasureSortingTime(DataGenerator.GetData(Sort.ASCENDING, numberOfElements), algorithm),
+                            Descending = MeasureSortingTime(DataGenerator.GetData(Sort.DESCENDING, numberOfElements), algorithm),
+                            AShaped = MeasureSortingTime(DataGenerator.GetData(Sort.ASHAPED, numberOfElements), algorithm),
+                            VShaped = MeasureSortingTime(DataGenerator.GetData(Sort.VSHAPED, numberOfElements), algorithm),
+                            Random = MeasureSortingTime(DataGenerator.GetData(Sort.RANDOM, numberOfElements), algorithm),
+                            Constant = MeasureSortingTime(DataGenerator.GetData(Sort.CONSTANT, numberOfElements), algorithm),
                         };
                         csv.NextRecord();
                         csv.WriteRecord(results);
@@ -90,12 +112,13 @@ namespace Lab1
                 csv.Configuration.Delimiter = ",";
                 while (numberOfElements <= stop)
                 {
+                    var data = DataGenerator.GetData(Sort.ASHAPED, numberOfElements);
                     var results = new CompareQuicSortResults()
                     {
                         NumberOfElements = numberOfElements,
-                        Right = MeasureSortingTime("AShape", "QuickRight", numberOfElements),
-                        Middle = MeasureSortingTime("AShape", "QuickMiddle", numberOfElements),
-                        Random = MeasureSortingTime("AShape", "QuickRandom", numberOfElements),
+                        Right = MeasureSortingTime(data, Sort.QUICKSORT_RIGHT),
+                        Middle = MeasureSortingTime(data, Sort.QUICKSORT_MIDDLE),
+                        Random = MeasureSortingTime(data, Sort.QUICKSORT_RANDOM),
                     };
                     csv.NextRecord();
                     csv.WriteRecord(results);
@@ -110,21 +133,21 @@ namespace Lab1
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareByAlgorithm(1000, 1000, 20000);
+            CompareByAlgorithm(10000, 10000, 100000);
             stopWatch.Stop();
-            Console.WriteLine(stopWatch.Elapsed);
+            Console.WriteLine("CompareByAlgorithm(): " + stopWatch.Elapsed);
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareByDataType(1000, 1000, 20000);
+            CompareByDataType(10000, 10000, 100000);
             stopWatch.Stop();
-            Console.WriteLine(stopWatch.Elapsed);
+            Console.WriteLine("CompareByDataType(): "+stopWatch.Elapsed);
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareQuickSortPivotTypesForAShapedData(1000, 1000, 20000);
+            CompareQuickSortPivotTypesForAShapedData(10000, 10000, 100000);
             stopWatch.Stop();
-            Console.WriteLine(stopWatch.Elapsed);
+            Console.WriteLine("CompareQuickSortPivotTypesForAShapedData(): " + stopWatch.Elapsed);
         }
     }
 }

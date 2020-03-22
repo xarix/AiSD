@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sort
+namespace Lab1
 {
     public class Stack
     {
@@ -30,7 +30,6 @@ namespace Sort
             {
                 return stack[--elements];
             }
-
             throw new InvalidOperationException("Stack is empty!");
         }
 

@@ -1,4 +1,4 @@
-namespace Sort
+namespace Lab1
 {
     public class CompareByDataTypeResults
     {
@@ -6,6 +6,7 @@ namespace Sort
         public int SelectionSortTime { get; set; }
         public int InsertionSortTime { get; set; }
         public int HeapSortTime { get; set; }
-        public int QuickSortTime { get; set; }
+        public int QuickSortIterativeTime { get; set; }
+        public int QuickSortRecursiveTime { get; set; }
     }
 }

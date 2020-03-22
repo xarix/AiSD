@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 
-namespace Sort.Test
+namespace Lab1.Test
 {
     class Test
     {

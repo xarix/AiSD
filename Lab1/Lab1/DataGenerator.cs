@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sort
+namespace Lab1
 {
     public static class DataGenerator
     {
@@ -10,12 +10,12 @@ namespace Sort
         {
             return dataType switch
             {
-                "Desc" => Descending(n),
-                "Asc" => Ascending(n),
-                "AShape" => AShape(n),
-                "VShape" => VShape(n),
-                "Random" => Random(n, 2),
-                "Const" => Constant(n),
+                Sort.DESCENDING => Descending(n),
+                Sort.ASCENDING => Ascending(n),
+                Sort.ASHAPED => AShape(n),
+                Sort.VSHAPED => VShape(n),
+                Sort.RANDOM => Random(n, 2),
+                Sort.CONSTANT => Constant(n),
                 _ => throw new ArgumentException("Data type doesn't exist!"),
             };
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sort
+namespace Lab1
 {
     public class Pair
     {

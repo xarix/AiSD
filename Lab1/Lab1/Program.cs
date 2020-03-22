@@ -22,7 +22,9 @@ namespace Lab1
         }
         static void CompareByDataType(int start, int step, int stop) {
             int numberOfElements;
-            var dataTypes = new List<string>() {"Desc", "Asc", "AShape", "VShape", "Random", "Const"};
+            var dataTypes = new List<string>() { Sort.Sort.DESCENDING, Sort.Sort.ASCENDING, Sort.Sort.ASHAPED,
+                Sort.Sort.VSHAPED, Sort.Sort.RANDOM, Sort.Sort.CONSTANT };
+
             foreach (var dataType in dataTypes)
             {
                 numberOfElements = start;
@@ -50,7 +52,8 @@ namespace Lab1
 
         static void CompareByAlgorithm(int start, int step, int stop) {
             int numberOfElements;
-            var algorithms = new List<string>() {"Insertion", "Selection", "Heap", "QuickMiddle"};
+            var algorithms = new List<string>() { Sort.Sort.INSERTION, Sort.Sort.SELECTION, Sort.Sort.HEAP, Sort.Sort.QUICKSORT_MIDDLE };
+            
             foreach (var algorithm in algorithms)
             {
                 numberOfElements = start;
@@ -65,12 +68,12 @@ namespace Lab1
                         var results = new CompareByAlgorithmResults()
                         {
                             NumberOfElements = numberOfElements,
-                            Ascending = MeasureSortingTime("Asc", algorithm, numberOfElements),
-                            Descending = MeasureSortingTime("Desc", algorithm, numberOfElements),
-                            AShaped = MeasureSortingTime("AShape", algorithm, numberOfElements),
-                            VShaped = MeasureSortingTime("VShape", algorithm, numberOfElements),
-                            Random = MeasureSortingTime("Random", algorithm, numberOfElements),
-                            Constant = MeasureSortingTime("Const", algorithm, numberOfElements),
+                            Ascending = MeasureSortingTime(Sort.Sort.ASCENDING, algorithm, numberOfElements),
+                            Descending = MeasureSortingTime(Sort.Sort.DESCENDING, algorithm, numberOfElements),
+                            AShaped = MeasureSortingTime(Sort.Sort.ASHAPED, algorithm, numberOfElements),
+                            VShaped = MeasureSortingTime(Sort.Sort.VSHAPED, algorithm, numberOfElements),
+                            Random = MeasureSortingTime(Sort.Sort.RANDOM, algorithm, numberOfElements),
+                            Constant = MeasureSortingTime(Sort.Sort.CONSTANT, algorithm, numberOfElements),
                         };
                         csv.NextRecord();
                         csv.WriteRecord(results);
@@ -93,9 +96,9 @@ namespace Lab1
                     var results = new CompareQuicSortResults()
                     {
                         NumberOfElements = numberOfElements,
-                        Right = MeasureSortingTime("AShape", "QuickRight", numberOfElements),
-                        Middle = MeasureSortingTime("AShape", "QuickMiddle", numberOfElements),
-                        Random = MeasureSortingTime("AShape", "QuickRandom", numberOfElements),
+                        Right = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.RIGHT, numberOfElements),
+                        Middle = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.MIDDLE, numberOfElements),
+                        Random = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.RANDOM, numberOfElements),
                     };
                     csv.NextRecord();
                     csv.WriteRecord(results);

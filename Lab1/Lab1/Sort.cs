@@ -22,14 +22,15 @@ namespace Sort
         public const string RIGHT = "Right";
         public const string MIDDLE = "Mid";
 
-        public static int[] SortArray(int[] A, string type) {
+        public static int[] SortArray(int[] A, string type)
+        {
             return type switch {
-                "Selection" => SelectionSort(A),
-                "Insertion" => InsertionSort(A),
-                "Heap" => HeapSort(A),
-                "QuickRight" => QuickSortIterative(A, "Right"),
-                "QuickMiddle" => QuickSortIterative(A, "Mid"),
-                "QuickRandom" => QuickSortIterative(A, "Random"),
+                SELECTION => SelectionSort(A),
+                INSERTION => InsertionSort(A),
+                HEAP => HeapSort(A),
+                QUICKSORT_RIGHT => QuickSortIterative(A, RIGHT),
+                QUICKSORT_MIDDLE => QuickSortIterative(A, MIDDLE),
+                QUICKSORT_RANDOM => QuickSortIterative(A, RANDOM),
                 _ => throw new ArgumentException("Algorithm doesn't exist!"),
             };
         }
@@ -186,9 +187,9 @@ namespace Sort
                     j = right;
                     x = pivot switch
                     {
-                        "Right" => A[right],
-                        "Mid" => A[(left + right) / 2],
-                        "Random" => A[new Random().Next(left, right)],
+                        RIGHT => A[right],
+                        MIDDLE => A[(left + right) / 2],
+                        RANDOM => A[new Random().Next(left, right)],
                         _ => throw new ArgumentException(),
                     };
                     do

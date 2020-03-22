@@ -51,7 +51,6 @@ namespace Lab1
                             SelectionSortTime = MeasureSortingTime(data, Sort.SELECTION),
                             InsertionSortTime = MeasureSortingTime(data, Sort.INSERTION),
                             HeapSortTime = MeasureSortingTime(data, Sort.HEAP),
-                            QuickSortIterativeTime = MeasureSortingTime(data, Sort.QUICKSORT_RANDOM),
                             QuickSortRecursiveTime = MeasureSortingTime(data, Sort.QUICKSORT_RECURSIVE)
                         };
                         csv.NextRecord();
@@ -70,8 +69,7 @@ namespace Lab1
                 Sort.INSERTION,
                 Sort.SELECTION,
                 Sort.HEAP,
-                Sort.QUICKSORT_RECURSIVE,
-                Sort.QUICKSORT_MIDDLE
+                Sort.QUICKSORT_RECURSIVE
             };
             foreach (var algorithm in algorithms)
             {

@@ -14,7 +14,7 @@ namespace Sort
                 "Asc" => Ascending(n),
                 "AShape" => AShape(n),
                 "VShape" => VShape(n),
-                "Random" => Random(n),
+                "Random" => Random(n, 2),
                 "Const" => Constant(n),
                 _ => throw new ArgumentException("Data type doesn't exist!"),
             };
@@ -22,85 +22,95 @@ namespace Sort
 
         private static int[] Descending(int n)
         {
-            var res = new int[n];
+            var result = new int[n];
             for(var i = 0; i < n; i++)
             {
-                res[i] = n - i;
+                result[i] = n - i;
             }
 
-            return res;
+            return result;
         }
 
         private static int[] Ascending(int n)
         {
-            var res = new int[n];
+            var result = new int[n];
             for(var i = 0; i < n; i++)
             {
-                res[i] = i;
+                result[i] = i;
             }
-            return res;
+            return result;
         }
 
         private static int[] Constant(int n)
         {
-            var res = new int[n];
+            var result = new int[n];
             for(var i = 0; i < n; i++)
             {
-                res[i] = 1;
+                result[i] = 1;
             }
 
-            return res;
+            return result;
         }
 
         private static int[] AShape(int n)
         {
-            var res = new int[n];
+            var result = new int[n];
             int j = 0;
             for (var i = 0; i < n/2; i++)
             {
-                res[i] = j;
+                result[i] = j;
                 j += 2;
             }
 
             j++;
             for(var i = n/2; i < n; i++)
             {
-                res[i] = j;
+                result[i] = j;
                 j -= 2;
             }
-            return res;
+            return result;
         }
 
         private static int[] VShape(int n)
         {
-            var res = new int[n];
+            var result = new int[n];
             var j = n;
             for (var i = 0; i < n/2; i++)
             {
-                res[i] = j;
+                result[i] = j;
                 j -= 2;
             }
 
             j++;
             for(var i = n/2; i < n; i++)
             {
-                res[i] = j;
+                result[i] = j;
                 j += 2;
             }
 
-            return res;
+            return result;
         }
 
         private static int[] Random(int n)
         {
-            var res = new int[n];
+            var result = new int[n];
             var rand = new Random();
             for (int i = 0; i < n; i++)
             {
-                res[i] = rand.Next(0, 1000000);
+                result[i] = rand.Next(0, 1000000);
             }
+            return result;
+        }
 
-            return res;
+        private static int[] Random(int n, int limitMultiplier)
+        {
+            var result = new int[n];
+            var rand = new Random();
+            for (int i = 0; i < n; i++)
+            {
+                result[i] = rand.Next(0, n * limitMultiplier);
+            }
+            return result;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Sort
                 "QuickRight" => QuickSortIterative(A, "Right"),
                 "QuickMiddle" => QuickSortIterative(A, "Mid"),
                 "QuickRandom" => QuickSortIterative(A, "Random"),
-                _ => throw new Exception()
+                _ => throw new ArgumentException("Algorithm doesn't exist!"),
             };
         }
 

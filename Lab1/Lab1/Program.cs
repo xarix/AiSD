@@ -96,9 +96,9 @@ namespace Lab1
                     var results = new CompareQuicSortResults()
                     {
                         NumberOfElements = numberOfElements,
-                        Right = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.RIGHT, numberOfElements),
-                        Middle = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.MIDDLE, numberOfElements),
-                        Random = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.RANDOM, numberOfElements),
+                        Right = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.QUICKSORT_RIGHT, numberOfElements),
+                        Middle = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.QUICKSORT_MIDDLE, numberOfElements),
+                        Random = MeasureSortingTime(Sort.Sort.ASHAPED, Sort.Sort.QUICKSORT_RANDOM, numberOfElements),
                     };
                     csv.NextRecord();
                     csv.WriteRecord(results);

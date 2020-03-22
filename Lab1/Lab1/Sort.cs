@@ -23,7 +23,8 @@ namespace Lab1
         public const string RIGHT = "Right";
         public const string MIDDLE = "Mid";
 
-        public static int[] SortArray(int[] A, string type) {
+        public static int[] SortArray(int[] A, string type)
+        {
             return type switch {
                 SELECTION => SelectionSort(A),
                 INSERTION => InsertionSort(A),

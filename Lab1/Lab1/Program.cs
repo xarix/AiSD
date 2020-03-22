@@ -131,19 +131,19 @@ namespace Lab1
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareByAlgorithm(10000, 10000, 100000);
+            CompareByAlgorithm(1000, 1000, 10000);
             stopWatch.Stop();
             Console.WriteLine("CompareByAlgorithm(): " + stopWatch.Elapsed);
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareByDataType(10000, 10000, 100000);
+            CompareByDataType(1000, 1000, 10000);
             stopWatch.Stop();
             Console.WriteLine("CompareByDataType(): "+stopWatch.Elapsed);
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareQuickSortPivotTypesForAShapedData(10000, 10000, 100000);
+            CompareQuickSortPivotTypesForAShapedData(1000, 1000, 10000);
             stopWatch.Stop();
             Console.WriteLine("CompareQuickSortPivotTypesForAShapedData(): " + stopWatch.Elapsed);
         }

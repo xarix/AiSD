@@ -25,7 +25,9 @@ namespace Lab1
 
         public static int[] SortArray(int[] A, string type)
         {
-            return type switch {
+            A = (int[])A.Clone();
+            return type switch
+            {
                 SELECTION => SelectionSort(A),
                 INSERTION => InsertionSort(A),
                 HEAP => HeapSort(A),

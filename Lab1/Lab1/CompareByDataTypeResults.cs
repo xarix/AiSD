@@ -6,7 +6,6 @@ namespace Lab1
         public int SelectionSortTime { get; set; }
         public int InsertionSortTime { get; set; }
         public int HeapSortTime { get; set; }
-        public int QuickSortIterativeTime { get; set; }
         public int QuickSortRecursiveTime { get; set; }
     }
 }

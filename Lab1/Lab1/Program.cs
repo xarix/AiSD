@@ -28,7 +28,6 @@ namespace Lab1
             {
                 Sort.DESCENDING,
                 Sort.ASCENDING,
-                Sort.ASHAPED,
                 Sort.VSHAPED,
                 Sort.RANDOM,
                 Sort.CONSTANT
@@ -51,8 +50,7 @@ namespace Lab1
                             SelectionSortTime = MeasureSortingTime(data, Sort.SELECTION),
                             InsertionSortTime = MeasureSortingTime(data, Sort.INSERTION),
                             HeapSortTime = MeasureSortingTime(data, Sort.HEAP),
-                            QuickSortIterativeTime = MeasureSortingTime(data, Sort.QUICKSORT_RANDOM),
-                            QuickSortRecursiveTime = MeasureSortingTime(data, Sort.QUICKSORT_RECURSIVE)
+                            QuickSortRecursiveTime = MeasureSortingTime(data, Sort.QUICKSORT_RECURSIVE),
                         };
                         csv.NextRecord();
                         csv.WriteRecord(results);
@@ -88,7 +86,6 @@ namespace Lab1
                             NumberOfElements = numberOfElements,
                             Ascending = MeasureSortingTime(DataGenerator.GetData(Sort.ASCENDING, numberOfElements), algorithm),
                             Descending = MeasureSortingTime(DataGenerator.GetData(Sort.DESCENDING, numberOfElements), algorithm),
-                            AShaped = MeasureSortingTime(DataGenerator.GetData(Sort.ASHAPED, numberOfElements), algorithm),
                             VShaped = MeasureSortingTime(DataGenerator.GetData(Sort.VSHAPED, numberOfElements), algorithm),
                             Random = MeasureSortingTime(DataGenerator.GetData(Sort.RANDOM, numberOfElements), algorithm),
                             Constant = MeasureSortingTime(DataGenerator.GetData(Sort.CONSTANT, numberOfElements), algorithm),
@@ -132,19 +129,19 @@ namespace Lab1
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareByAlgorithm(1000, 1000, 10000);
+            CompareByAlgorithm(10000, 10000, 100000);
             stopWatch.Stop();
             Console.WriteLine("CompareByAlgorithm(): " + stopWatch.Elapsed);
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareByDataType(1000, 1000, 10000);
+            CompareByDataType(10000, 10000, 100000);
             stopWatch.Stop();
             Console.WriteLine("CompareByDataType(): "+stopWatch.Elapsed);
 
             stopWatch.Reset();
             stopWatch.Start();
-            CompareQuickSortPivotTypesForAShapedData(1000, 1000, 10000);
+            CompareQuickSortPivotTypesForAShapedData(10000, 10000, 100000);
             stopWatch.Stop();
             Console.WriteLine("CompareQuickSortPivotTypesForAShapedData(): " + stopWatch.Elapsed);
         }

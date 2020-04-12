@@ -6,23 +6,20 @@ namespace Lab2
 {
     public class BST
     {
-        BSTNode root;
+        private BSTNode root;
 
         public BST()
         {
 
         }
 
-        public BST(int value)
-        {
-            root = new BSTNode(value);
-        }
+        public BST(int value) => root = new BSTNode(value);
 
         public BST(IEnumerable<int> enumerable)
         {
             foreach (var item in enumerable)
             {
-                Insert(root, item);
+                Insert(item);
             }
         }
 
@@ -37,7 +34,7 @@ namespace Lab2
         }
 
 
-        public BSTNode Insert(BSTNode root, int value)
+        private BSTNode Insert(BSTNode root, int value)
         {
             if (root is null)
             {
@@ -90,9 +87,36 @@ namespace Lab2
             return 1 + Math.Max(Height(root.left), Height(root.right));
         }
 
-        public BSTNode BuildAVL()
+        public void BuildAVL()
         {
-            return null;
+            var sortedListOfNodes = new List<BSTNode>();
+            InOrderList(root, sortedListOfNodes);
+            root = null;
+            BuildAVL(sortedListOfNodes, 0, sortedListOfNodes.Count);
+        }
+
+        private void BuildAVL(List<BSTNode> list, int left, int right)
+        {
+            if (left == right)
+            {
+                return;
+            }
+            var mid = (left + right) / 2;
+            Insert(list[mid].value);
+            BuildAVL(list, left, mid);
+            BuildAVL(list, mid + 1, right);
+        }
+
+        private void InOrderList(BSTNode root, List<BSTNode> list)
+        {
+            if (root != null)
+            {
+                InOrderList(root.left, list);
+                list.Add(root);
+                InOrderList(root.right, list);
+            }
+
+            return;
         }
 
         public void PrintInorder() => PrintInorder(root);

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Lab2
 {
-    public class SortedLinkedList
+    public class SortedLinkedList : IDataType
     {
         private ListNode head;
 
@@ -23,33 +24,45 @@ namespace Lab2
             }
         }
 
+        public int MeasureInsertTime(int[] array)
+        {
+            var stopwatch = new Stopwatch();
+            array = (int[])array.Clone();
+            stopwatch.Start();
+            foreach (int element in array) {
+                Insert(element);
+            }
+            stopwatch.Stop();
+            return (int)stopwatch.ElapsedMilliseconds;
+        }
+
         public void Insert(int value)
         {
-            if (head is null || value < head.value)
+            if (head is null || value < head.Value)
             {
                 var newHead =  new ListNode(value);
-                newHead.next = head;
+                newHead.Next = head;
                 head = newHead;
             }
             else
             {
                 var current = head;
-                while (current.next != null && current.next.value < value)
+                while (current.Next != null && current.Next.Value < value)
                 {
-                    current = current.next;
+                    current = current.Next;
                 }
 
-                var tail = current.next;
-                current.next = new ListNode(value);
-                current.next.next = tail;
+                var tail = current.Next;
+                current.Next = new ListNode(value);
+                current.Next.Next = tail;
             }
         }
 
         public void DeleteFirst()
         {
             var current = head;
-            head = head.next;
-            current.next = null;
+            head = head.Next;
+            current.Next = null;
         }
 
         public void Print()
@@ -57,17 +70,17 @@ namespace Lab2
             var current = head;
             while (current != null)
             {
-                Console.WriteLine(current.value);
-                current = current.next;
+                Console.WriteLine(current.Value);
+                current = current.Next;
             }
         }
 
         public ListNode Search(int value)
         {
             var current = head;
-            while (current != null && current.value != value)
+            while (current != null && current.Value != value)
             {
-                current = current.next;
+                current = current.Next;
             }
 
             return current;

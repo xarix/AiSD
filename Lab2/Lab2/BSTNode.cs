@@ -6,13 +6,13 @@ namespace Lab2
 {
     public class BSTNode
     {
-        public int value;
-        public BSTNode left;
-        public BSTNode right;
+        public int Value;
+        public BSTNode Left;
+        public BSTNode Right;
 
         public BSTNode(int value)
         {
-            this.value = value;
+            this.Value = value;
         }
     }
 }

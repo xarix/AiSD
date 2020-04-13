@@ -6,11 +6,11 @@ namespace Lab2
 {
     public class ListNode
     {
-        public int value;
-        public ListNode next;
+        public int Value;
+        public ListNode Next;
         public ListNode(int value)
         {
-            this.value = value;
+            Value = value;
         }
     }
 }

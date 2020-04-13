@@ -1,10 +1,11 @@
-﻿using System;
+﻿using System.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Lab2
 {
-    public class BST
+    public class BST : IDataType
     {
         BSTNode root;
 
@@ -26,6 +27,18 @@ namespace Lab2
             }
         }
 
+        public int MeasureInsertTime(int[] array)
+        {
+            var stopwatch = new Stopwatch();
+            array = (int[])array.Clone();
+            stopwatch.Start();
+            foreach (int element in array) {
+                Insert(element);
+            }
+            stopwatch.Stop();
+            return (int)stopwatch.ElapsedMilliseconds;
+        }
+
         public void Insert(int value)
         {
             if (root is null)
@@ -43,12 +56,12 @@ namespace Lab2
             {
                 return new BSTNode(value);
             }
-            else if (value < root.value){
-                root.left = Insert(root.left, value);
+            else if (value < root.Value){
+                root.Left = Insert(root.Left, value);
             }
             else
             {
-                root.right = Insert(root.right, value);
+                root.Right = Insert(root.Right, value);
             }
 
             return root;
@@ -58,17 +71,17 @@ namespace Lab2
 
         private BSTNode Search(BSTNode root, int value)
         {
-            if (root is null || value == root.value)
+            if (root is null || value == root.Value)
             {
                 return root;
             }
-            else if (value < root.value)
+            else if (value < root.Value)
             {
-                return Search(root.left, value);
+                return Search(root.Left, value);
             }
             else
             {
-                return Search(root.right, value);
+                return Search(root.Right, value);
             }
         }
 
@@ -87,7 +100,7 @@ namespace Lab2
             {
                 return 0;
             }
-            return 1 + Math.Max(Height(root.left), Height(root.right));
+            return 1 + Math.Max(Height(root.Left), Height(root.Right));
         }
 
         public BSTNode BuildAVL()
@@ -101,9 +114,9 @@ namespace Lab2
         {
             if (root != null)
             {
-                PrintInorder(root.left);
-                Console.WriteLine(root.value);
-                PrintInorder(root.right);
+                PrintInorder(root.Left);
+                Console.WriteLine(root.Value);
+                PrintInorder(root.Right);
             }
         }
 
@@ -113,9 +126,9 @@ namespace Lab2
         {
             if (root != null)
             {
-                PrintInorder(root.left);
-                PrintInorder(root.right);
-                Console.WriteLine(root.value);
+                PrintInorder(root.Left);
+                PrintInorder(root.Right);
+                Console.WriteLine(root.Value);
             }
         }
 
@@ -125,9 +138,9 @@ namespace Lab2
         {
             if (root != null)
             {
-                Console.WriteLine(root.value);
-                PrintInorder(root.left);
-                PrintInorder(root.right);
+                Console.WriteLine(root.Value);
+                PrintInorder(root.Left);
+                PrintInorder(root.Right);
             }
         }
     }

@@ -29,9 +29,35 @@ namespace Lab2
             var stopwatch = new Stopwatch();
             array = (int[])array.Clone();
             stopwatch.Start();
-            foreach (int element in array) {
+            foreach (int element in array)
+            {
                 Insert(element);
             }
+            stopwatch.Stop();
+            return (int)stopwatch.ElapsedMilliseconds;
+        }
+
+        public int MeasureSearchTime(int[] array)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            foreach (int element in array) 
+            {
+                Search(element);
+            }
+            stopwatch.Stop();
+            return (int)stopwatch.ElapsedMilliseconds;
+        }
+
+        public int MeasureDestroyTime()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while (head.Next != null)
+            {
+                DeleteFirst();
+            }
+            head = null;
             stopwatch.Stop();
             return (int)stopwatch.ElapsedMilliseconds;
         }

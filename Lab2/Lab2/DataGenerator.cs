@@ -6,7 +6,7 @@ namespace Lab2
 {
     public static class DataGenerator
     {
-        public static int[] UniqueArray(int n)
+        public static int[] UniqueArray(uint n)
         {
             var result = new int[n];
             for (var i = 0; i< n; i++)

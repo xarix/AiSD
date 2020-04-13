@@ -36,6 +36,27 @@ namespace Lab2
             return (int)stopwatch.ElapsedMilliseconds;
         }
 
+        public int MeasureSearchTime(int[] array)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            foreach (int element in array) 
+            {
+                Search(element);
+            }
+            stopwatch.Stop();
+            return (int)stopwatch.ElapsedMilliseconds;
+        }
+
+        public int MeasureDestroyTime()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            PostorderDelete(root);
+            stopwatch.Stop();
+            return (int)stopwatch.ElapsedMilliseconds;
+        }
+
         public void Insert(int value)
         {
             if (root is null)
@@ -98,6 +119,16 @@ namespace Lab2
                 return 0;
             }
             return 1 + Math.Max(Height(root.Left), Height(root.Right));
+        }
+
+        public void PostorderDelete(BSTNode node)
+        {
+            if (node != null)
+            {
+                PostorderDelete(node.Left);
+                PostorderDelete(node.Right);
+                node = null;
+            }
         }
 
         public void BuildAVL()

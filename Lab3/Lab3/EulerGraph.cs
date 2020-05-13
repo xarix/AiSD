@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -7,9 +8,12 @@ namespace Lab3
 {
     public class EulerGraph
     {
+        public const string EULER_CYCLE = "eulerCycle";
+        public const string HAMILTON_CYCLE = "hamiltonCycle";
+
         private int[][] matrix;
         private Dictionary<int, int> deg = new Dictionary<int, int>();
-        public readonly int nbrOfVertices;
+        public readonly int _numberOfVertices;
 
         public EulerGraph(int numberOfVertices, double saturation)
         {
@@ -19,17 +23,33 @@ namespace Lab3
                 matrix[i] = new int[numberOfVertices];
             }
 
-            nbrOfVertices = numberOfVertices;
+            _numberOfVertices = numberOfVertices;
             CreateCycle(numberOfVertices);
             MeetSaturationGoal(saturation);
-
         }
 
+        public int MeasureTime(string algorithm)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            switch (algorithm)
+            {
+                default:
+                case EulerGraph.EULER_CYCLE:
+                    EulerCycle.FindEulerCycle(this, 1);
+                    break;
+                case EulerGraph.HAMILTON_CYCLE:
+                    HamiltonCycle.FindHamiltonCycle(this);
+                    break;
+            }
+            stopwatch.Stop();
+            return (int)stopwatch.ElapsedMilliseconds;
+        }
         public void MeetSaturationGoal(double saturation)
         {
-            var currentSaturation = (double)nbrOfVertices / (nbrOfVertices * (nbrOfVertices - 1) / 2);
+            var currentSaturation = (double)_numberOfVertices / (_numberOfVertices * (_numberOfVertices - 1) / 2);
             //use 3 as in every step 3 edges are being added 
-            double saturationStep = 3 / ((double)nbrOfVertices * (nbrOfVertices - 1) / 2);
+            double saturationStep = 3 / ((double)_numberOfVertices * (_numberOfVertices - 1) / 2);
             while (currentSaturation < saturation)
             {
                 var triplet = FindTriplet();
@@ -57,13 +77,13 @@ namespace Lab3
                 if (found)
                     break;
 
-                for (int i = 0; i < nbrOfVertices; i++)
+                for (int i = 0; i < _numberOfVertices; i++)
                 {
                     if (found)
                         break;
                     if (!found && i != curr && !IsEdgeExists(curr, i))
                     {
-                        for (int j = 0; j < nbrOfVertices; j++)
+                        for (int j = 0; j < _numberOfVertices; j++)
                         {
                             if (j != curr && j != i && !IsEdgeExists(i, j) && !IsEdgeExists(j, curr))
                             {
@@ -77,7 +97,6 @@ namespace Lab3
                     }
                 }
             }
-            
             
             if (!found)
             {
@@ -120,7 +139,6 @@ namespace Lab3
 
         public void RemoveEdge(int a, int b)
         {
-
             matrix[a][b] = 0;
             matrix[b][a] = 0;
             deg[a]--;
@@ -142,9 +160,9 @@ namespace Lab3
 
         public void Print()
         {
-            for (int i = 0; i < nbrOfVertices; i++)
+            for (int i = 0; i < _numberOfVertices; i++)
             {
-                for (int j = 0; j < nbrOfVertices; j++)
+                for (int j = 0; j < _numberOfVertices; j++)
                 {
                     Console.Write($"{matrix[i][j]} ");
                 }

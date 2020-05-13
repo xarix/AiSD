@@ -28,7 +28,7 @@ namespace Lab3
                 else return false;
             }
 
-            for (int i = 1; i < graph.nbrOfVertices; i++)
+            for (int i = 1; i < graph._numberOfVertices; i++)
             {
                 if (IsSafe(i, position, cycle, graph))
                 {

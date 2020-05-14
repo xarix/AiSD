@@ -1,4 +1,5 @@
-﻿using CsvHelper;
+﻿using System.Linq;
+using CsvHelper;
 using CsvHelper.Configuration;
 using System;
 using System.Diagnostics;
@@ -12,19 +13,13 @@ namespace Lab3
         
         static void Main(string[] args)
         {
-            // todo add a message
-            Console.Write(
-                "\n" +
-                "================================================================\n" +
-                "\n"
-                );
-            
-            CreateRaport(10);
+            CreateRaport(10, EulerGraph.EULER_CYCLE);
+            CreateRaport(10, EulerGraph.HAMILTON_CYCLE);
         }
 
-        public static void CreateRaport(int verticeNumberMultiplier)
+        public static void CreateRaport(int verticeNumberMultiplier, string cycleType)
         {
-            using (StreamWriter output = File.CreateText(RESULTS_DIRECTORY + "results.csv"))
+            using (StreamWriter output = File.CreateText(RESULTS_DIRECTORY + cycleType + "Results" + DateTime.Now.ToString() + ".csv"))
             using (CsvWriter csv = new CsvWriter(output, System.Globalization.CultureInfo.CurrentCulture))
             {
                 csv.Configuration.NewLine = NewLine.LF;
@@ -33,18 +28,19 @@ namespace Lab3
                 for (int i = 1; i <= 15; i++)
                 {
                     var stopwatch = new Stopwatch();
+                    stopwatch.Start();
                     var graph30 = new EulerGraph(i * verticeNumberMultiplier, 0.3);
                     var graph70 = new EulerGraph(i * verticeNumberMultiplier, 0.7);
                     var result = new Results
                     {
                         NumberOfVertices = verticeNumberMultiplier * i,
-                        Euler30 = graph30.MeasureTime(EulerGraph.EULER_CYCLE),
-                        Euler70 = graph70.MeasureTime(EulerGraph.EULER_CYCLE),
-                        Hamilton30 = graph30.MeasureTime(EulerGraph.HAMILTON_CYCLE),
-                        Hamilton70 = graph70.MeasureTime(EulerGraph.HAMILTON_CYCLE)
+                        Graph30 = graph30.MeasureTime(cycleType),
+                        Graph70 = graph70.MeasureTime(cycleType),
                     };
+                    stopwatch.Stop();
                     csv.NextRecord();
                     csv.WriteRecord(result);
+                    Console.WriteLine(i + " " + stopwatch.Elapsed);
                 }
             }
         }

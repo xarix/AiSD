@@ -8,9 +8,8 @@ namespace Lab3
 {
     public class EulerGraph
     {
-        public const string EULER_CYCLE = "eulerCycle";
-        public const string HAMILTON_CYCLE = "hamiltonCycle";
-
+        public const string EULER_CYCLE = "EulerCycle";
+        public const string HAMILTON_CYCLE = "HamiltonCycle";
         private int[][] matrix;
         private Dictionary<int, int> deg = new Dictionary<int, int>();
         public readonly int _numberOfVertices;
@@ -34,12 +33,13 @@ namespace Lab3
             stopwatch.Start();
             switch (algorithm)
             {
-                default:
                 case EulerGraph.EULER_CYCLE:
                     EulerCycle.FindEulerCycle(this, 1);
                     break;
                 case EulerGraph.HAMILTON_CYCLE:
-                    HamiltonCycle.FindHamiltonCycle(this);
+                    int[] visitedVertices = new int[_numberOfVertices];
+                    visitedVertices.Select(vertice => vertice = -1);
+                    HamiltonCycle.FindHamiltonCycle(this, visitedVertices);
                     break;
             }
             stopwatch.Stop();

@@ -58,10 +58,11 @@ namespace Lab2
                 csv.Configuration.NewLine = NewLine.LF;
                 csv.Configuration.Delimiter = ",";
                 csv.WriteHeader(typeof(AccessTimeComparisonResults));
+                Console.WriteLine(AccessTimeComparisonResults.HeaderToString());
                 while (numberOfElements <= stop)
                 {
-                    var stopwatch = new Stopwatch();
-                    stopwatch.Start();
+                    // var stopwatch = new Stopwatch();
+                    // stopwatch.Start();
                     var data = DataGenerator.UniqueArray(numberOfElements);
                     var bst = new BST();
                     var linkedList = new SortedLinkedList();
@@ -75,10 +76,11 @@ namespace Lab2
                         BSTDestroy = bst.MeasureDestroyTime(),
                         LinkedListDestroy = linkedList.MeasureDestroyTime()
                     };
+                    Console.WriteLine(result.DataToString());
                     csv.NextRecord();
                     csv.WriteRecord(result);
-                    stopwatch.Stop();
-                    Console.WriteLine("raport row #" + (((numberOfElements - start) / step) + 1) + stopwatch.Elapsed);
+                    // stopwatch.Stop();
+                    // Console.WriteLine("raport row #" + (((numberOfElements - start) / step) + 1) + stopwatch.Elapsed);
                     numberOfElements += step;
                 }
             }
@@ -94,10 +96,11 @@ namespace Lab2
                 csv.Configuration.NewLine = NewLine.LF;
                 csv.Configuration.Delimiter = ",";
                 csv.WriteHeader(typeof(TreeHeightComparisonResults));
+                Console.WriteLine(TreeHeightComparisonResults.HeaderToString());
                 while (numberOfElements <= stop)
                 {
-                    var stopwatch = new Stopwatch();
-                    stopwatch.Start();
+                    // var stopwatch = new Stopwatch();
+                    // stopwatch.Start();
                     var data = DataGenerator.UniqueArray(numberOfElements);
                     var bst = new BST(data);
                     var bstHeight = bst.Height();
@@ -105,14 +108,15 @@ namespace Lab2
                     var avlHeight = bst.Height();
                     var result = new TreeHeightComparisonResults
                     {
-                        NumberOfElememnts = numberOfElements,
+                        NumberOfElements = numberOfElements,
                         BSTHeight = bstHeight,
                         AVLHeight = avlHeight
                     };
+                    Console.WriteLine(result.DataToString());
                     csv.NextRecord();
                     csv.WriteRecord(result);
-                    stopwatch.Stop();
-                    Console.WriteLine("raport row #" + (((numberOfElements - start) / step) + 1) + stopwatch.Elapsed);
+                    // stopwatch.Stop();
+                    // Console.WriteLine("raport row #" + (((numberOfElements - start) / step) + 1) + stopwatch.Elapsed);
                     numberOfElements += step;
                 }
             }

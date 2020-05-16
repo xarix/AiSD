@@ -17,8 +17,9 @@ namespace Lab3
         
         static void Main(string[] args)
         {
-            CreateRaport(6, 1, 15, 0.5, FIRST);
-            CreateRaport(6, 2, 10, 0.7, SECOND);
+            CreateRaport(6, 1, 15, 0.3, FIRST);
+            CreateRaport(6, 1, 15, 0.7, FIRST);
+            CreateRaport(6, 2, 10, 0.5, SECOND);
         }
 
         public static void CreateRaport(int start, int step, int numberOfSteps, double saturation, string typeOfRaport)

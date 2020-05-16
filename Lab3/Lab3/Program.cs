@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using CsvHelper;
 using CsvHelper.Configuration;
 using System;
@@ -13,29 +14,28 @@ namespace Lab3
         
         static void Main(string[] args)
         {
-            CreateRaport(10, EulerGraph.EULER_CYCLE);
-            CreateRaport(10, EulerGraph.HAMILTON_CYCLE);
+            CreateRaport(6, 2, 0.3);
+            CreateRaport(6, 2, 0.7);
         }
 
-        public static void CreateRaport(int verticeNumberMultiplier, string cycleType)
+        public static void CreateRaport(int start, int step, double saturation)
         {
-            using (StreamWriter output = File.CreateText(RESULTS_DIRECTORY + cycleType + "Results" + DateTime.Now.ToString() + ".csv"))
+            using (StreamWriter output = File.CreateText(RESULTS_DIRECTORY + "ResultsFor" + (saturation * 100).ToString() + "PercentSaturation" + DateTime.Now.ToString() + ".csv"))
             using (CsvWriter csv = new CsvWriter(output, System.Globalization.CultureInfo.CurrentCulture))
             {
                 csv.Configuration.NewLine = NewLine.LF;
                 csv.Configuration.Delimiter = ",";
                 csv.WriteHeader(typeof(Results));
-                for (int i = 1; i <= 15; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     var stopwatch = new Stopwatch();
                     stopwatch.Start();
-                    var graph30 = new EulerGraph(i * verticeNumberMultiplier, 0.3);
-                    var graph70 = new EulerGraph(i * verticeNumberMultiplier, 0.7);
+                    var graph = new EulerGraph(start + (i * step), saturation);
                     var result = new Results
                     {
-                        NumberOfVertices = verticeNumberMultiplier * i,
-                        Graph30 = graph30.MeasureTime(cycleType),
-                        Graph70 = graph70.MeasureTime(cycleType),
+                        NumberOfVertices = start + (i * step),
+                        HamiltonCycle = graph.MeasureTime(EulerGraph.HAMILTON_CYCLE), // Euler alg removes some edges so Hamilton needs to be first
+                        EulerCycle = graph.MeasureTime(EulerGraph.EULER_CYCLE),
                     };
                     stopwatch.Stop();
                     csv.NextRecord();

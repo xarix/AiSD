@@ -1,6 +1,6 @@
 namespace Lab3
 {
-    public class Results
+    public class FirstExcerciseResults
     {
         public int NumberOfVertices { get; set; }
         public int HamiltonCycle { get; set; }

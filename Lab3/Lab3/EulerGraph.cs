@@ -10,6 +10,7 @@ namespace Lab3
     {
         public const string EULER_CYCLE = "EulerCycle";
         public const string HAMILTON_CYCLE = "HamiltonCycle";
+        public const string ALL_HAMILTON_CYCLES = "AllHamiltonCycles";
         private int[][] matrix;
         private Dictionary<int, int> deg = new Dictionary<int, int>();
         public readonly int _numberOfVertices;
@@ -29,6 +30,7 @@ namespace Lab3
 
         public int MeasureTime(string algorithm)
         {
+            int[] visitedVertices = new int[_numberOfVertices];
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             switch (algorithm)
@@ -37,9 +39,12 @@ namespace Lab3
                     EulerCycle.FindEulerCycle(this, 1);
                     break;
                 case EulerGraph.HAMILTON_CYCLE:
-                    int[] visitedVertices = new int[_numberOfVertices];
                     visitedVertices.Select(vertice => vertice = -1);
                     HamiltonCycle.FindHamiltonCycle(this, visitedVertices);
+                    break;
+                case EulerGraph.ALL_HAMILTON_CYCLES:
+                    visitedVertices.Select(vertice => vertice = -1);
+                    HamiltonCycle.FindAllHamiltonCycles(this, visitedVertices);
                     break;
             }
             stopwatch.Stop();

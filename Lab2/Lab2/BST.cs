@@ -109,7 +109,7 @@ namespace Lab2
             {
                 return 0;
             }
-            return Height(root);
+            return Height(root) - 1;
         }
 
         private int Height(BSTNode root)
@@ -170,7 +170,7 @@ namespace Lab2
             if (root != null)
             {
                 PrintInorder(root.Left);
-                Console.WriteLine(root.Value);
+                Console.Write(root.Value + ", ");
                 PrintInorder(root.Right);
             }
         }
@@ -181,9 +181,9 @@ namespace Lab2
         {
             if (root != null)
             {
-                PrintInorder(root.Left);
-                PrintInorder(root.Right);
-                Console.WriteLine(root.Value);
+                PrintPostorder(root.Left);
+                PrintPostorder(root.Right);
+                Console.Write(root.Value + ", ");
             }
         }
 
@@ -193,9 +193,23 @@ namespace Lab2
         {
             if (root != null)
             {
-                Console.WriteLine(root.Value);
+                Console.Write(root.Value.ToString() + ", ");
                 PrintInorder(root.Left);
                 PrintInorder(root.Right);
+            }
+        }
+
+        public void PrintFarRightElement() => PrintFarRightElement(root);
+
+        private void PrintFarRightElement(BSTNode root)
+        {
+            if (root.Right == null)
+            {
+                Console.WriteLine(root.Value);
+            }
+            else
+            {
+                PrintFarRightElement(root.Right);
             }
         }
     }

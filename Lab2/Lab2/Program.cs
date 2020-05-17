@@ -1,4 +1,5 @@
-﻿using CsvHelper;
+﻿using System.Collections;
+using CsvHelper;
 using CsvHelper.Configuration;
 using System.Diagnostics;
 using System;
@@ -13,50 +14,86 @@ namespace Lab2
 
         static void Main(string[] args)
         {
-            var data = new List<int>();
-            using (StreamReader sr = File.OpenText(@"C:/Users/dmdud/file.txt"))
-            {
-                string s = String.Empty;
-                while ((s = sr.ReadLine()) != null)
-                {
-                    data.Add(int.Parse(s));
-                }
-            }
-
             Console.Write(
                 "\n" +
                 "================================================================\n" +
                 "BST and Linked List comparison raport program\n" +
                 "made by Maciej Frel and Marcin Duda\n" +
+                "\n" +
+                "Do you want to use data from file? [y/n]: "
+                );
+            if (Console.Read() == (int)'y')
+            {
+                var data = new List<int>();
+                using (StreamReader sr = File.OpenText("../Input/bst.txt"))
+                {
+                    string s = String.Empty;
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        data.Add(int.Parse(s));
+                    }
+                }
+                ShowResultsUsingFileData(data);
+            }
+            else
+            {
+                uint start = ReadNumberFromConsole("Starting point number");
+                uint step = ReadNumberFromConsole("Step number");
+                uint stop = ReadNumberFromConsole("End point number");
+                Console.Write(
+                    "\n" +
+                    "================================================================\n" +
+                    "BST and Sorted Linked List speed comparison\n" +
+                    "\n"
+                    );
+
+                CompareInsertSearchDestroy(start, step, stop);
+
+                Console.Write(
+                    "\n" +
+                    "================================================================\n" +
+                    "Regular BST and AVL tree height comparison\n" +
+                    "\n"
+                    );
+                
+                CompareTreeHeights(start, step, stop);
+
+                Console.Write(
+                "\n" +
+                "================================================================\n" +
                 "\n"
                 );
+            }
+        }
 
-            uint start = ReadNumberFromConsole("Starting point number");
-            uint step = ReadNumberFromConsole("Step number");
-            uint stop = ReadNumberFromConsole("End point number");
+        static void ShowResultsUsingFileData(List<int> data)
+        {
             Console.Write(
                 "\n" +
                 "================================================================\n" +
-                "BST and Sorted Linked List speed comparison\n" +
-                "\n"
+                "Data: "
                 );
-
-            CompareInsertSearchDestroy(start, step, stop);
-
+            for (int i = 0; i < data.Count; i++)
+            {
+                Console.Write(data[i] + ", ");
+            }
+            Console.Write("\n");
+            var bst = new BST(data);
+            var linkedList = new SortedLinkedList(data);
+            Console.Write(
+                "================================================================\n" +
+                "Height: " + bst.Height().ToString() + "\n" +
+                "Postorder: "
+            );
+            bst.PrintPostorder();
             Console.Write(
                 "\n" +
-                "================================================================\n" +
-                "Regular BST and AVL tree height comparison\n" +
-                "\n"
-                );
-            
-            CompareTreeHeights(start, step, stop);
-
+                "Far right element value: "
+            );
+            bst.PrintFarRightElement();
             Console.Write(
-                "\n" +
-                "================================================================\n" +
-                "\n"
-                );
+                "================================================================\n"
+            );
         }
 
         static void CompareInsertSearchDestroy(uint start, uint step, uint stop)

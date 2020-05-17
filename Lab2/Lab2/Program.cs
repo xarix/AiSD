@@ -3,6 +3,7 @@ using CsvHelper.Configuration;
 using System.Diagnostics;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Lab2
 {
@@ -12,6 +13,16 @@ namespace Lab2
 
         static void Main(string[] args)
         {
+            var data = new List<int>();
+            using (StreamReader sr = File.OpenText(@"C:/Users/dmdud/file.txt"))
+            {
+                string s = String.Empty;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    data.Add(int.Parse(s));
+                }
+            }
+
             Console.Write(
                 "\n" +
                 "================================================================\n" +

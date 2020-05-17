@@ -109,7 +109,7 @@ namespace Lab2
             {
                 return 0;
             }
-            return Height(root) -1;
+            return Height(root);
         }
 
         private int Height(BSTNode root)

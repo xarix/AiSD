@@ -15,7 +15,7 @@ namespace Lab3
         private Dictionary<int, int> deg = new Dictionary<int, int>();
         public readonly int _numberOfVertices;
 
-        public EulerGraph(int numberOfVertices, double saturation)
+        public EulerGraph(int numberOfVertices)
         {
             matrix = new int[numberOfVertices][];
             for (int i = 0; i < numberOfVertices; i++)
@@ -24,9 +24,9 @@ namespace Lab3
             }
 
             _numberOfVertices = numberOfVertices;
-            CreateCycle(numberOfVertices);
-            MeetSaturationGoal(saturation);
         }
+
+        
 
         public int MeasureTime(string algorithm)
         {
@@ -52,6 +52,7 @@ namespace Lab3
         }
         public void MeetSaturationGoal(double saturation)
         {
+            CreateCycle(_numberOfVertices);
             var currentSaturation = (double)_numberOfVertices / (_numberOfVertices * (_numberOfVertices - 1) / 2);
             //use 3 as in every step 3 edges are being added 
             double saturationStep = 3 / ((double)_numberOfVertices * (_numberOfVertices - 1) / 2);

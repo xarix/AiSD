@@ -17,9 +17,74 @@ namespace Lab3
         
         static void Main(string[] args)
         {
-            CreateRaport(6, 1, 15, 0.3, FIRST);
-            CreateRaport(6, 1, 15, 0.7, FIRST);
-            CreateRaport(6, 2, 10, 0.5, SECOND);
+            Console.Write("Do you want to use data from file? [y/n]: ");
+            var r = Console.ReadKey();
+            Console.WriteLine();
+            switch (r.Key.ToString())
+            {
+                case "Y":
+                    CreateReportFromFile();
+                    break;
+                case "N":
+                    CreateRaport(6, 1, 15, 0.3, FIRST);
+                    CreateRaport(6, 1, 15, 0.7, FIRST);
+                    CreateRaport(6, 2, 10, 0.5, SECOND);
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+
+        public static void CreateReportFromFile()
+        {
+            int[][] matrix = File.ReadAllLines("a.txt")
+                   .Select(l => l.Split(' ').Select(i => int.Parse(i)).ToArray())
+                   .ToArray();
+            var graph = new EulerGraph(matrix.Length);
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (matrix[i][j] != 0)
+                        graph.AddEdge(i, j);
+                }
+            }
+            var cycle = new int[graph._numberOfVertices];
+            for (int i = 0; i < cycle.Length; i++)
+            {
+                cycle[i] = -1;
+            }
+
+            var found = HamiltonCycle.FindHamiltonCycle(graph, cycle);
+            Console.WriteLine($"First Hamilton cycle: ");
+            if (found)
+            {
+                foreach (var item in cycle)
+                {
+                    Console.Write(item + " ");
+                }
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("Graph doesn't contain Hamilton cycle");
+            }
+
+            for (int i = 0; i < cycle.Length; i++)
+            {
+                cycle[i] = -1;
+            }
+            Console.WriteLine($"All Hamilton cycles");
+            HamiltonCycle.FindAllHamiltonCycles(graph, cycle, true);
+
+            Console.WriteLine($"Euler cycle: ");
+            var eulerCycle = EulerCycle.FindEulerCycle(graph, 0);
+            foreach (var item in eulerCycle)
+            {
+                Console.Write(item + " ");
+            }
         }
 
         public static void CreateRaport(int start, int step, int numberOfSteps, double saturation, string typeOfRaport)
@@ -40,11 +105,14 @@ namespace Lab3
                         var hamiltonTimes = new int[11];
                         for (int j = 0; j < 11; j++)
                         {
-                            hamiltonTimes[j] = new EulerGraph(start + (i * step), saturation).MeasureTime(EulerGraph.HAMILTON_CYCLE);
+                            var graphHamilton = new EulerGraph(start + (i * step));
+                            graphHamilton.MeetSaturationGoal(saturation);
+                            hamiltonTimes[j] = graphHamilton.MeasureTime(EulerGraph.HAMILTON_CYCLE);
                         }
                         Array.Sort(hamiltonTimes);
                         Console.WriteLine(string.Join(", ", hamiltonTimes));
-                        var graph = new EulerGraph(start + (i * step), saturation);
+                        var graph = new EulerGraph(start + (i * step));
+                        graph.MeetSaturationGoal(saturation);
                         var result = new FirstExcerciseResults
                         {
                             NumberOfVertices = start + (i * step),
@@ -64,7 +132,8 @@ namespace Lab3
                     {
                         var stopwatch = new Stopwatch();
                         stopwatch.Start();
-                        var graph = new EulerGraph(start + (i * step), saturation);
+                        var graph = new EulerGraph(start + (i * step));
+                        graph.MeetSaturationGoal(saturation);
                         var result = new SecondExcerciseResults
                         {
                             NumberOfVertices = start + (i * step),

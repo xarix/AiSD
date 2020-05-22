@@ -20,15 +20,15 @@ namespace Lab3
             return true;
         }
 
-        public static int FindAllHamiltonCycles(EulerGraph graph, int[] cycle)
+        public static int FindAllHamiltonCycles(EulerGraph graph, int[] cycle, bool print = false)
         {
             cycle[0] = 0;
             int numberOfCycles = 0;
-            HamiltonAllCycles(graph, cycle, 1, ref numberOfCycles);
+            HamiltonAllCycles(graph, cycle, 1, ref numberOfCycles, print);
             return numberOfCycles;
         }
 
-        private static int HamiltonAllCycles(EulerGraph graph, int[] cycle, int position, ref int numberOfCycles)
+        private static int HamiltonAllCycles(EulerGraph graph, int[] cycle, int position, ref int numberOfCycles, bool print = false)
         {
             if (position == cycle.Length)
             {
@@ -44,9 +44,17 @@ namespace Lab3
                 if (IsSafe(i, position, cycle, graph))
                 {
                     cycle[position] = i;
-                    if (HamiltonAllCycles(graph, cycle, position + 1, ref numberOfCycles) == 1)
+                    if (HamiltonAllCycles(graph, cycle, position + 1, ref numberOfCycles, print) == 1)
                     {
                         numberOfCycles++;
+                        if (print)
+                        {
+                            foreach (var item in cycle)
+                            {
+                                Console.Write(item + " ");
+                            }
+                            Console.WriteLine();
+                        }
                     }
                     cycle[position] = -1;
                 }

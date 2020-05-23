@@ -34,7 +34,6 @@ namespace Lab3
             {
                 if (graph.IsEdgeExists(cycle[0], cycle[position - 1]))
                 {
-                    // Console.WriteLine(string.Join(", ", cycle));
                     return 1;
                 }
             }
@@ -49,6 +48,7 @@ namespace Lab3
                         numberOfCycles++;
                         if (print)
                         {
+                            Console.Write(numberOfCycles + ": ");
                             foreach (var item in cycle)
                             {
                                 Console.Write(item + " ");
@@ -89,7 +89,7 @@ namespace Lab3
 
         private static bool IsSafe(int v, int position, int[] cycle, EulerGraph graph)
         {
-            if (!graph.IsEdgeExists(v, position - 1))
+            if (!graph.IsEdgeExists(v, cycle[position - 1]))
             {
                 return false;
             }

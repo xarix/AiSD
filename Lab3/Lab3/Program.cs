@@ -57,25 +57,6 @@ namespace Lab3
                 cycle[i] = -1;
             }
 
-            var found = HamiltonCycle.FindHamiltonCycle(graph, cycle);
-            Console.WriteLine($"First Hamilton cycle: ");
-            if (found)
-            {
-                foreach (var item in cycle)
-                {
-                    Console.Write(item + " ");
-                }
-                Console.WriteLine();
-            }
-            else
-            {
-                Console.WriteLine("Graph doesn't contain Hamilton cycle");
-            }
-
-            for (int i = 0; i < cycle.Length; i++)
-            {
-                cycle[i] = -1;
-            }
             Console.WriteLine($"All Hamilton cycles");
             HamiltonCycle.FindAllHamiltonCycles(graph, cycle, true);
 

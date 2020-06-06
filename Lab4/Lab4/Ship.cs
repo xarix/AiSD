@@ -82,6 +82,7 @@ namespace Lab4
             }
             stopwatch.Stop();
             result.loadingTime = (int)stopwatch.ElapsedMilliseconds;
+            result.loadedContainersValue = maxLoadTable[containers.Count, _maxLoad];
             return result;
         }
     }

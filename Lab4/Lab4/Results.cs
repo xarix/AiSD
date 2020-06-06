@@ -17,8 +17,8 @@ namespace Lab4
         public int GreedyStaticValueRandomWeightQuality { get; set; }
         public int DynamicStaticValueRandomWeightQuality { get; set; }
 
-        public int RelativeErrorAllRandom { get; set; }
-        public int RelativeErrorRandomValueStaticWeight { get; set; }
-        public int RelativeErrorStaticValueRandomWeight { get; set; }
+        public float RelativeErrorAllRandom { get; set; }
+        public float RelativeErrorRandomValueStaticWeight { get; set; }
+        public float RelativeErrorStaticValueRandomWeight { get; set; }
     }
 }

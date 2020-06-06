@@ -1,0 +1,11 @@
+MaxShipLoad,GreedyAllRandomTime,DynamicAllRandomTime,GreedyRandomValueStaticWeightTime,DynamicRandomValueStaticWeightTime,GreedyStaticValueRandomWeightTime,DynamicStaticValueRandomWeightTime,GreedyAllRandomQuality,DynamicAllRandomQuality,GreedyRandomValueStaticWeightQuality,DynamicRandomValueStaticWeightQuality,GreedyStaticValueRandomWeightQuality,DynamicStaticValueRandomWeightQuality,RelativeErrorAllRandom,RelativeErrorRandomValueStaticWeight,RelativeErrorStaticValueRandomWeight
+1000,2,11,0,10,0,10,1402,1402,1374,1374,1374,1374,0,0,0
+2000,0,44,0,42,0,38,2816,2818,2697,2697,2697,2697,"0,0007097232",0,0
+3000,0,96,0,92,0,99,4249,4254,4148,4148,4148,4148,"0,0011753644",0,0
+4000,0,165,0,164,0,157,5762,5762,5466,5466,5466,5466,0,0,0
+5000,0,265,0,246,0,246,7096,7097,6770,6770,6770,6770,"0,00014090461",0,0
+6000,0,381,0,371,0,364,8626,8627,8055,8055,8055,8055,"0,00011591515",0,0
+7000,0,518,0,515,0,505,9825,9825,9379,9379,9379,9379,0,0,0
+8000,0,676,0,662,0,657,11463,11466,10686,10686,10686,10686,"0,00026164312",0,0
+9000,0,863,0,838,0,837,12976,12979,12351,12351,12351,12351,"0,00023114262",0,0
+10000,0,1059,0,1047,0,1029,14433,14435,13649,13649,13649,13649,"0,00013855213",0,0
